@@ -1,4 +1,4 @@
-# Movie-Recommendation-Web-app
+# Movie Recommendation Engine
 
 A simple movie recommendation web application built using Django framework.
 
@@ -13,8 +13,3 @@ Movie posters and its data from [omdb api](https://www.omdbapi.com/)
 
 2. Run: ```python manage.py runserver```
 
-### with Docker:
-
-- Run this command from root directory:
-```docker-compose up --build```
-- open ```localhost:8000``` on yur browser
