@@ -25,10 +25,10 @@ def homepage(request):
 	movies = Movie.objects.all()
 	query  = request.GET.get('q')
 	if query:
-		movies 		= Movie.objects.filter(Q(title__icontains=query)).distinct()[:8]
+		movies 	= Movie.objects.filter(Q(title__icontains=query)).distinct()[:8]
 		poster_path = []
 		for movie in movies:
-			imdbId 		= movie.imdbId
+			imdbId 	= movie.imdbId
 			poster_link = get_movie_details(imdbId)['Poster']
 			poster_path.append(poster_link)
 		movies_and_posters = zip(movies, poster_path)
@@ -43,13 +43,6 @@ def register(request):
 			user 		= form.save(commit=False)
 			username	= form.cleaned_data['username']
 			password 	= form.cleaned_data['password']
-
-			# Another way to create user import User MOdel
-			# first_name = form.cleaned_data['first_name']
-			# last_name = form.cleaned_data['last_name']
-			# email = form.cleaned_data['email']
-			# user = User.objects.create_user(username=username, password=password, email=email,
-			#                                first_name=first_name, last_name=last_name)
 
 			user 	= user.set_password(password)
 			user 	= form.save()
@@ -137,13 +130,13 @@ def movies_rated_by_user(request):
 		imdbId 		= movie.imdbId
 		poster_link = get_movie_details(imdbId)['Poster']
 		poster_path.append(poster_link)
-	paginator 	= Paginator(movies, 12)
-	page_number = request.GET.get('page')
-	page_obj	= paginator.get_page(page_number)
-	movie 		= page_obj.object_list 
-	paginator_poster 	= Paginator(poster_path, 12)
-	page_obj_poster		= paginator_poster.get_page(page_number)
-	poster 				= page_obj_poster.object_list 
+	paginator 	 = Paginator(movies, 12)
+	page_number      = request.GET.get('page')
+	page_obj	 = paginator.get_page(page_number)
+	movie 		 = page_obj.object_list 
+	paginator_poster = Paginator(poster_path, 12)
+	page_obj_poster	 = paginator_poster.get_page(page_number)
+	poster 		 = page_obj_poster.object_list 
 
 	movies_and_posters = zip(movie, poster)
 
@@ -155,9 +148,9 @@ def movies_rated_by_user(request):
 
 @login_required(login_url='log_in')
 def details(request, pk):
-	movies 			= Movie.objects.get(movieId=pk)
-	imdbId 			= movies.imdbId
-	user   			= request.user.id
+	movies 		= Movie.objects.get(movieId=pk)
+	imdbId 		= movies.imdbId
+	user   		= request.user.id
 	movie_details 	= get_movie_details(imdbId)
 
 	try:
@@ -192,8 +185,8 @@ def details(request, pk):
 @cache_page(60*3)
 @vary_on_cookie
 def recommend_movies(request):
-	user 			= request.user.id
-	movies 			= [] 
+	user 		= request.user.id
+	movies 		= [] 
 	poster_path 	= []
 	if UserRating.objects.filter(user_id=user).count() < 12:
 		messages.info(request, "Please rate at least 12 movies to get recommendations.!")
@@ -201,8 +194,8 @@ def recommend_movies(request):
 	
 	recommendations = recommend(user=6041)
 	for values in recommendations:
-		movie 		= Movie.objects.get(movieId=values)
-		imdbId 		= movie.imdbId
+		movie 	= Movie.objects.get(movieId=values)
+		imdbId 	= movie.imdbId
 		poster_link = get_movie_details(imdbId)['Poster']
 		movies.append(movie)
 		poster_path.append(poster_link)
