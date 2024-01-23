@@ -11,5 +11,9 @@ Movie posters and its data from [omdb api](https://www.omdbapi.com/)
 1. Install requirements:
 ```pip install -r requirements.txt```
 
-2. Run: ```python manage.py runserver```
+2a. Local Run: ```python manage.py runserver```
 
+2b. Server Run: 
+```ssh servername```
+```cd [projectname]```
+```python manage.py runserver 0.0.0.0:8000```
